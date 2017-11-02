@@ -81,7 +81,7 @@ public class GeneralConverter implements LegacyConverter {
     List<Content> authors = new ArrayList<>();
     if (info.contains("creators")) {
       for (String username : info.getStringList("creators")) {
-        Comment comment = new Comment(username);
+        Comment comment = new Comment("TODO: Get UUID for " + username);
         authors.add(comment);
         Element el = new Element("author");
         el.setAttribute("uuid", "");

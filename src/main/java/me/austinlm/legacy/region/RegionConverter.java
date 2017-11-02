@@ -3,9 +3,20 @@ package me.austinlm.legacy.region;
 import java.util.Map;
 import lombok.Getter;
 import me.austinlm.legacy.XmlUtils;
+import me.austinlm.legacy.region.types.RegionCuboid;
+import me.austinlm.legacy.region.types.RegionCylinder;
+import me.austinlm.legacy.region.types.RegionGlobal;
+import me.austinlm.legacy.region.types.RegionJoin;
+import me.austinlm.legacy.region.types.RegionPoint;
+import me.austinlm.legacy.region.types.RegionSphere;
 import net.avicus.compendium.config.Config;
+import org.jdom2.Comment;
 import org.jdom2.Element;
 
+/**
+ * Regions used to be regions+zones+executors.
+ * This makes life hard.
+ */
 public class RegionConverter {
 
   @Getter
@@ -90,6 +101,7 @@ public class RegionConverter {
     if (config.getString("message") != null) {
       String msg = config.getString("message");
       msg = msg.replaceAll("&", "§");
+      toApply.addContent(new Comment("TODO: Translate from legacy."));
       toApply.addContent(
           new Element("message").setText(msg)
       );

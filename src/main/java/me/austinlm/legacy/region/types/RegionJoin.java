@@ -1,7 +1,8 @@
-package me.austinlm.legacy.region;
+package me.austinlm.legacy.region.types;
 
 import java.util.List;
 import lombok.ToString;
+import me.austinlm.legacy.region.Region;
 import net.avicus.compendium.config.Config;
 import org.jdom2.Element;
 
