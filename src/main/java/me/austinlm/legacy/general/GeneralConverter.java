@@ -5,6 +5,7 @@ import java.util.List;
 import me.austinlm.legacy.LegacyConverter;
 import me.austinlm.legacy.RegionUtils;
 import me.austinlm.legacy.region.RegionConverter;
+import me.austinlm.legacy.util.Coordinate;
 import me.austinlm.legacy.util.XmlUtils;
 import net.avicus.compendium.config.Config;
 import org.jdom2.Comment;
@@ -137,9 +138,11 @@ public class GeneralConverter implements LegacyConverter {
 
     String spawn = info.getAsString("spawn");
     if (spawn.contains(",")) {
+      Element regions = new Element("regions");
       Element point = new Element("point");
       new Coordinate(spawn).toXML(point);
-      obs.addContent(point);
+      regions.addContent(point);
+      obs.addContent(regions);
     } else {
       RegionUtils.regionRef(obs, spawn);
     }

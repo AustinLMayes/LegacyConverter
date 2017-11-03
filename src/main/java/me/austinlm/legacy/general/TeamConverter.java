@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.BiConsumer;
 import me.austinlm.legacy.LegacyConverter;
+import me.austinlm.legacy.util.Coordinate;
 import me.austinlm.legacy.util.XmlUtils;
 import net.avicus.compendium.config.Config;
 import org.jdom2.Element;
@@ -69,15 +70,12 @@ public class TeamConverter implements LegacyConverter {
       return;
     }
 
-    if (raw.size() == 1) {
-      tSpawn.addContent(parseCoord(raw.get(0)));
-    } else {
-      Element regions = new Element("regions");
-      for (String item : raw) {
-        regions.addContent(parseCoord(item));
-      }
-      tSpawn.addContent(regions);
+    Element regions = new Element("regions");
+    for (String item : raw) {
+      regions.addContent(parseCoord(item));
     }
+    tSpawn.addContent(regions);
+
 
     spawns.addContent(tSpawn);
   }

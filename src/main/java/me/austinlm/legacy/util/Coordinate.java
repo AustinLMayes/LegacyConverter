@@ -1,4 +1,4 @@
-package me.austinlm.legacy.general;
+package me.austinlm.legacy.util;
 
 import lombok.Getter;
 import lombok.Setter;

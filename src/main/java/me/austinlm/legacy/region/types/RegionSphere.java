@@ -3,7 +3,7 @@ package me.austinlm.legacy.region.types;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import me.austinlm.legacy.general.Coordinate;
+import me.austinlm.legacy.util.Coordinate;
 import me.austinlm.legacy.region.Region;
 import net.avicus.compendium.config.Config;
 import org.jdom2.Element;

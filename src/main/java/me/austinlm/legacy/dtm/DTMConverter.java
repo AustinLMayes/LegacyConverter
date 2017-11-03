@@ -2,7 +2,7 @@ package me.austinlm.legacy.dtm;
 
 import java.util.Map;
 import me.austinlm.legacy.LegacyConverter;
-import me.austinlm.legacy.general.Coordinate;
+import me.austinlm.legacy.util.Coordinate;
 import me.austinlm.legacy.general.GeneralConverter;
 import me.austinlm.legacy.general.Loadout;
 import me.austinlm.legacy.general.TeamConverter;
@@ -16,10 +16,11 @@ public class DTMConverter implements LegacyConverter {
   public void convert(Config config, Element root) {
     if (config.getConfig("info").get("type", String.class).equalsIgnoreCase("dtm")) {
       new GeneralConverter().convert(config, root);
-      new TeamConverter((c, i) -> {
-        Element objectives = XmlUtils.getOrCreate(root, "objectives");
-        Element monuments = new Element("monuments");
 
+      Element objectives = XmlUtils.getOrCreate(root, "objectives");
+      Element monuments = new Element("monuments");
+      monuments.setAttribute("materials", "obsidian");
+      new TeamConverter((c, i) -> {
         Element teamMons = new Element("monuments");
         teamMons.setAttribute("owner", i);
         c.getConfig("monuments").getData().values().forEach(v -> {
@@ -38,8 +39,8 @@ public class DTMConverter implements LegacyConverter {
         });
 
         monuments.addContent(teamMons);
-        objectives.addContent(monuments);
       }, "default").convert(config.getConfig("teams"), root);
+      objectives.addContent(monuments);
       Element loadouts = new Element("loadouts");
       new Loadout("default", config.getConfig("loadout")).toXML(loadouts);
       root.addContent(loadouts);
