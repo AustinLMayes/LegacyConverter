@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import me.austinlm.legacy.LegacyConverter;
 import me.austinlm.legacy.RegionUtils;
-import me.austinlm.legacy.XmlUtils;
 import me.austinlm.legacy.region.RegionConverter;
+import me.austinlm.legacy.util.XmlUtils;
 import net.avicus.compendium.config.Config;
 import org.jdom2.Comment;
 import org.jdom2.Content;
@@ -21,6 +21,8 @@ public class GeneralConverter implements LegacyConverter {
     authors(root, info);
     obsSpawn(root, info);
     checkDuration(root, info);
+    repairRemove(root, config);
+
     Element regions = new Element("regions");
     new RegionConverter(root).convert(config.getConfig("regions"), regions);
     root.addContent(regions);
@@ -33,6 +35,33 @@ public class GeneralConverter implements LegacyConverter {
     }
 
     throw new RuntimeException("Unknown map type: " + type);
+  }
+
+  private void repairRemove(Element root, Config base) {
+    List<String> remove = base.getStringList("remove-drops");
+    List<String> repair = base.getStringList("repair-drops");
+
+    if (remove == null && repair == null) {
+      return;
+    }
+
+    Element items = XmlUtils.getOrCreate(root, "items");
+
+    if (remove != null) {
+      Element removeRoot = new Element("remove-drops");
+      Element any = new Element("any");
+      remove.forEach(r -> any.addContent(new Element("material").setText(r)));
+      removeRoot.addContent(any);
+      items.addContent(removeRoot);
+    }
+
+    if (repair != null) {
+      Element repairRoot = new Element("repair-tools");
+      Element any = new Element("any");
+      repair.forEach(r -> any.addContent(new Element("material").setText(r)));
+      repairRoot.addContent(any);
+      items.addContent(repairRoot);
+    }
   }
 
   private void generalInfo(Element root, Config info) {
@@ -108,9 +137,9 @@ public class GeneralConverter implements LegacyConverter {
 
     String spawn = info.getAsString("spawn");
     if (spawn.contains(",")) {
-      Element block = new Element("block");
-      new Coordinate(spawn).toXML(block);
-      obs.addContent(block);
+      Element point = new Element("point");
+      new Coordinate(spawn).toXML(point);
+      obs.addContent(point);
     } else {
       RegionUtils.regionRef(obs, spawn);
     }

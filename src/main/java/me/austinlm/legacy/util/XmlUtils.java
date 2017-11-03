@@ -1,4 +1,4 @@
-package me.austinlm.legacy;
+package me.austinlm.legacy.util;
 
 import org.jdom2.Element;
 

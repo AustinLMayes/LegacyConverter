@@ -2,13 +2,13 @@ package me.austinlm.legacy.region;
 
 import java.util.Map;
 import lombok.Getter;
-import me.austinlm.legacy.XmlUtils;
 import me.austinlm.legacy.region.types.RegionCuboid;
 import me.austinlm.legacy.region.types.RegionCylinder;
 import me.austinlm.legacy.region.types.RegionGlobal;
 import me.austinlm.legacy.region.types.RegionJoin;
 import me.austinlm.legacy.region.types.RegionPoint;
 import me.austinlm.legacy.region.types.RegionSphere;
+import me.austinlm.legacy.util.XmlUtils;
 import net.avicus.compendium.config.Config;
 import org.jdom2.Comment;
 import org.jdom2.Element;
@@ -28,7 +28,7 @@ public class RegionConverter {
 
   public void convert(Config regionSect, Element regionEl) {
     regionSect.getData().forEach((n, c) -> {
-      parseRegion(regionEl, new Config((Map<String, Object>) c), n);
+      parseRegion(regionEl, new Config((Map<Object, Object>) c), n.toString());
     });
   }
 
@@ -59,9 +59,10 @@ public class RegionConverter {
     region.toXML(regionEl);
   }
 
-  private void parseFlags(String region, Map<String, Object> flags) {
+  private void parseFlags(String region, Map<Object, Object> flags) {
     Element zones = XmlUtils.getOrCreate(this.getRoot(), "zones");
-    flags.forEach((n, d) -> parseFlag(zones, region, new Config((Map<String, Object>) d), n));
+    flags.forEach(
+        (n, d) -> parseFlag(zones, region, new Config((Map<Object, Object>) d), n.toString()));
   }
 
   private void parseFlag(Element zones, String region, Config config, String name) {
@@ -163,44 +164,31 @@ public class RegionConverter {
   }
 
   private void killPlayer(String region, Config config, Element root) {
-    Element zone = getBaseElement(region, config);
-
-    root.addContent(zone);
+    root.addContent(new Comment("TODO: Implement kill_player"));
   }
 
   private void shootBow(String region, Config config, Element root) {
-    Element zone = getBaseElement(region, config);
+    root.addContent(new Comment("TODO: Implement shoot_bow"));
 
-    root.addContent(zone);
   }
 
   private void dropItem(String region, Config config, Element root) {
-    Element zone = getBaseElement(region, config);
-
-    root.addContent(zone);
+    root.addContent(new Comment("TODO: Implement drop_item"));
   }
 
   private void pickup(String region, Config config, Element root) {
-    Element zone = getBaseElement(region, config);
-
-    root.addContent(zone);
+    root.addContent(new Comment("TODO: Implement item_pickup"));
   }
 
   private void decay(String region, Config config, Element root) {
-    Element zone = getBaseElement(region, config);
-
-    root.addContent(zone);
+    root.addContent(new Comment("TODO: Implement decay"));
   }
 
   private void dispense(String region, Config config, Element root) {
-    Element zone = getBaseElement(region, config);
-
-    root.addContent(zone);
+    root.addContent(new Comment("TODO: Implement dispense"));
   }
 
   private void damage(String region, Config config, Element root) {
-    Element zone = getBaseElement(region, config);
-
-    root.addContent(zone);
+    root.addContent(new Comment("TODO: Implement damage"));
   }
 }
